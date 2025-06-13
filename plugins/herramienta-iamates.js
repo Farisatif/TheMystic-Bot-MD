@@ -19,7 +19,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 };
 
-handler.command = /^(iamates)$/i;
+handler.command = /^(رياضيات)$/i;
 handler.tags = ['ai'];
 export default handler;
 

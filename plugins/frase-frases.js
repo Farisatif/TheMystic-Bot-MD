@@ -11,23 +11,23 @@ const handler = async (m, { conn, command }) => {
 
   global.consejos = tradutor.texto4;
 
-  if (command === 'consejo') {
+  if (command === 'نصيحه') {
     const consejo = consejos[Math.floor(Math.random() * consejos.length)];
     const mensaje = `╭─◆────◈⚘◈─────◆─╮\n\n⠀⠀🌟 ${tradutor.texto1} 🌟\n\n❥ ${consejo}\n\n╰─◆────◈⚘◈─────◆─╯`;
     await m.reply(mensaje);
   }
 
-  if (command === 'fraseromantica') {
+  if (command === 'رومانسي') {
     const frase_romantica = frasesromanticas[Math.floor(Math.random() * frasesromanticas.length)];
     const mensaje = `╭─◆────◈⚘◈─────◆─╮\n\n⠀⠀💖 ${tradutor.texto2} 💖\n\n❥ ${frase_romantica}\n\n╰─◆────◈⚘◈─────◆─╯`;
     await m.reply(mensaje);
   }
 
-  if (command == 'historiaromantica') {
+  if (command == 'قصة-حب') {
     try {
       const cerpe = await cerpen(`cinta romantis`);
-      const storytime = await translate(cerpe.cerita, { to: 'es', autoCorrect: true }).catch((_) => null);
-      const titletime = await translate(cerpe.title, { to: 'es', autoCorrect: true }).catch((_) => null);
+      const storytime = await translate(cerpe.cerita, { to: 'ar', autoCorrect: true }).catch((_) => null);
+      const titletime = await translate(cerpe.title, { to: 'ar', autoCorrect: true }).catch((_) => null);
       conn.reply(m.chat, `᭥🫐᭢ Título: ${titletime.text}
 ᭥🍃᭢ Autor: ${cerpe.author}
 ────────────────
@@ -41,7 +41,7 @@ ${storytime.text}`, m);
   }
 };
 handler.tags = ['frases'];
-handler.command = handler.help = ['consejo', 'fraseromantica', 'historiaromantica'];
+handler.command = handler.help = ['نصيحه', 'رومانسي', 'قصة-حب'];
 export default handler;
 
 async function cerpen(category) {

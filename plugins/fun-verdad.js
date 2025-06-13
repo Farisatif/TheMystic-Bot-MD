@@ -12,7 +12,7 @@ const handler = async (m, {conn}) => {
 };
 handler.help = ['verdad'];
 handler.tags = ['fun'];
-handler.command = /^verdad/i;
+handler.command = /^(verdad|اسال)/i;
 export default handler;
 
 function pickRandom(list) {

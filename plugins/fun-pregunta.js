@@ -18,5 +18,5 @@ ${tradutor.texto1[2]} ${[tradutor.texto1[3], tradutor.texto1[4], tradutor.texto1
 }
 handler.help = ['pregunta <texto>?'];
 handler.tags = ['kerang'];
-handler.command = /^pregunta|preguntas|apakah$/i;
+handler.command = /^pregunta|preguntas|اسمع|apakah$/i;
 export default handler;

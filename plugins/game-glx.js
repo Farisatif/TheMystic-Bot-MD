@@ -1590,5 +1590,5 @@ Tu ganaste:
         }
     }
 };
-handler.command = /^(gameglx|glx)$/i;
+handler.command = /^(gameglx|glx|جلاكسي)$/i;
 export default handler;

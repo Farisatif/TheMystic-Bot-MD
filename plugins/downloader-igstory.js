@@ -28,6 +28,7 @@ const handler = async (m, {conn, args, usedPrefix, command}) => {
     }
   }
 };
+
 handler.help = ['igstory <username>'];
 handler.tags = ['downloader'];
 handler.command = ['igstory', 'ighistoria'];

@@ -37,5 +37,5 @@ ${tradutor.texto2[15]} ${resultes2.text}`;
     throw `${tradutor.texto3}`;
   }
 };
-handler.command = /^(anime|animeinfo)$/i;
+handler.command = /^(anime|انمي|animeinfo)$/i;
 export default handler;

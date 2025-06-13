@@ -23,6 +23,6 @@ const handler = async (m, {conn, text, usedPrefix, command}) => {
     await m.reply(`${tradutor.texto2}`);
   }
 };
-handler.command = /^stickerpack$/i;
+handler.command = /^stickerpack|تنزيل-ستيكر$/i;
 export default handler;
 // const delay = time => new Promise(res => setTimeout(res, time))

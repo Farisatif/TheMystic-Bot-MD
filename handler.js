@@ -1072,64 +1072,135 @@ ${tradutor.texto1[1]} ${messageNumber}/3
  * @param {import("baileys").BaileysEventMap<unknown>['group-participants.update']} groupsUpdate
  */
 export async function participantsUpdate({ id, participants, action }) {
-  const idioma = global?.db?.data?.chats[id]?.language || global.defaultLenguaje;
-  const _translate = JSON.parse(fs.readFileSync(`./src/languages/${idioma}.json`))
-  const tradutor = _translate.handler.participantsUpdate
+  const conn = mconn.conn; // تأكد من وجود اتصال
+  if (!conn) return;
 
-  const m = mconn
+  const idioma = global?.db?.data?.chats[id]?.language || global.defaultLenguaje;
+  const _translate = JSON.parse(fs.readFileSync(`./src/languages/${idioma}.json`));
+  const tradutor = _translate.handler.participantsUpdate;
+
   if (opts['self']) return;
   if (global.db.data == null) await loadDatabase();
+  
   const chat = global.db.data.chats[id] || {};
-  const botTt = global.db.data.settings[mconn?.conn?.user?.jid] || {};
+  const botTt = global.db.data.settings[conn.user?.jid] || {};
   let text = '';
+
   switch (action) {
     case 'add':
-    case 'remove':
+    case 'remove': {
       if (chat.welcome && !chat?.isBanned) {
-        const groupMetadata = await m?.conn?.groupMetadata(id) || (conn?.chats[id] || {}).metadata;
+        const groupMetadata = await conn.groupMetadata(id).catch(() => null);
+        if (!groupMetadata) return;
+
+        // التحقق من صلاحية البوت
+        const botParticipant = groupMetadata.participants.find(
+          p => conn.decodeJid(p.id) === conn.decodeJid(conn.user.jid)
+        );
+        const isBotAdmin = botParticipant?.admin === 'admin' || botParticipant?.admin === 'superadmin';
+
         for (const user of participants) {
+          const userJid = conn.decodeJid(user);
           let pp = 'https://raw.githubusercontent.com/Farisatif/TheMystic-Bot-MD/master/src/avatar_contact.png';
+          
           try {
-            pp = await m?.conn?.profilePictureUrl(user, 'image');
+            pp = await conn.profilePictureUrl(userJid, 'image');
           } catch (e) {
-          } finally {
-            const apii = await mconn?.conn?.getFile(pp);
-            const antiArab = JSON.parse(fs.readFileSync('./src/antiArab.json'));
-            const userPrefix = antiArab.some((prefix) => user.startsWith(prefix));
-            const botTt2 = groupMetadata?.participants?.find((u) => m?.conn?.decodeJid(u.id) == m?.conn?.user?.jid) || {};
-            const isBotAdminNn = botTt2?.admin === 'admin' || false;
-            text = (action === 'add' ? (chat.sWelcome || tradutor.texto1 || conn.welcome || 'Welcome, @user!').replace('@subject', await m?.conn?.getName(id)).replace('@desc', groupMetadata?.desc?.toString() || '*𝚂𝙸𝙽 𝙳𝙴𝚂𝙲𝚁𝙸𝙿𝙲𝙸𝙾𝙽*').replace('@user', '@' + user.split('@')[0]) :
-              (chat.sBye || tradutor.texto2 || conn.bye || 'Bye, @user!')).replace('@user', '@' + user.split('@')[0]);
-            if (userPrefix && chat.antiArab && botTt.restrict && isBotAdminNn && action === 'add') {
-              const responseb = await m.conn.groupParticipantsUpdate(id, [user], 'remove');
-              if (responseb[0].status === '404') return;
-              const fkontak2 = { 'key': { 'participants': '0@s.whatsapp.net', 'remoteJid': 'status@broadcast', 'fromMe': false, 'id': 'Halo' }, 'message': { 'contactMessage': { 'vcard': `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${user.split('@')[0]}:${user.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` } }, 'participant': '0@s.whatsapp.net' };
-              await m?.conn?.sendMessage(id, { text: `*[❗] @${user.split('@')[0]} ᴇɴ ᴇsᴛᴇ ɢʀᴜᴘᴏ ɴᴏ sᴇ ᴘᴇʀᴍɪᴛᴇɴ ɴᴜᴍᴇʀᴏs ᴀʀᴀʙᴇs ᴏ ʀᴀʀᴏs, ᴘᴏʀ ʟᴏ ϙᴜᴇ sᴇ ᴛᴇ sᴀᴄᴀʀᴀ ᴅᴇʟ ɢʀᴜᴘᴏ*`, mentions: [user] }, { quoted: fkontak2 });
-              return;
-            }
-            await m?.conn?.sendFile(id, apii.data, 'pp.jpg', text, null, false, { mentions: [user] });
+            console.error('Error getting profile picture:', e);
+          }
+
+          const apii = await conn.getFile(pp).catch(() => null);
+          const antiArab = JSON.parse(fs.readFileSync('./src/antiArab.json'));
+          const userPrefix = antiArab.some(prefix => userJid.startsWith(prefix));
+
+          text = (action === 'add' 
+            ? (chat.sWelcome || tradutor.texto1 || conn.welcome || 'Welcome, @user!')
+                .replace('@subject', await conn.getName(id))
+                .replace('@desc', groupMetadata.desc?.toString() || '*𝚂𝙸𝙽 𝙳𝙴𝚂𝙲𝚁𝙸𝙿𝙲𝙸𝙾𝙽*')
+                .replace('@user', '@' + userJid.split('@')[0])
+            : (chat.sBye || tradutor.texto2 || conn.bye || 'Bye, @user!'))
+                .replace('@user', '@' + userJid.split('@')[0]);
+
+          if (userPrefix && chat.antiArab && botTt.restrict && isBotAdmin && action === 'add') {
+            await conn.groupParticipantsUpdate(id, [userJid], 'remove').catch(console.error);
+            const fkontak2 = { 
+              key: { 
+                participants: '0@s.whatsapp.net', 
+                remoteJid: 'status@broadcast', 
+                fromMe: false, 
+                id: 'Halo' 
+              }, 
+              message: { 
+                contactMessage: { 
+                  vcard: `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${userJid.split('@')[0]}:${userJid.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` 
+                } 
+              }, 
+              participant: '0@s.whatsapp.net' 
+            };
+            
+            await conn.sendMessage(
+              id, 
+              { 
+                text: `*[❗] @${userJid.split('@')[0]} ᴇɴ ᴇsᴛᴇ ɢʀᴜᴘᴏ ɴᴏ sᴇ ᴘᴇʀᴍɪᴛᴇɴ ɴᴜᴍᴇʀᴏs ᴀʀᴀʙᴇs ᴏ ʀᴀʀᴏs, ᴘᴏʀ ʟᴏ ϙᴜᴇ sᴇ ᴛᴇ sᴀᴄᴀʀᴀ ᴅᴇʟ ɢʀᴜᴘᴏ*`, 
+                mentions: [userJid] 
+              }, 
+              { quoted: fkontak2 }
+            );
+            continue;
+          }
+
+          if (apii?.data) {
+            await conn.sendFile(
+              id, 
+              apii.data, 
+              'pp.jpg', 
+              text, 
+              null, 
+              false, 
+              { mentions: [userJid] }
+            );
+          } else {
+            await conn.sendMessage(
+              id, 
+              { text, mentions: [userJid] }
+            );
           }
         }
       }
       break;
+    }
     case 'promote':
     case 'daradmin':
-    case 'darpoder':
-      text = (chat.sPromote || tradutor.texto3 || conn?.spromote || '@user ```is now Admin```');
-    case 'demote':
-    case 'quitarpoder':
-    case 'quitaradmin':
-      if (!text) {
-        text = (chat?.sDemote || tradutor.texto4 || conn?.sdemote || '@user ```is no longer Admin```');
-      }
-      text = text.replace('@user', '@' + participants[0].split('@')[0]);
+    case 'darpoder': {
+      const userJid = conn.decodeJid(participants[0]);
+      text = (chat.sPromote || tradutor.texto3 || conn?.spromote || '@user ```is now Admin```')
+        .replace('@user', '@' + userJid.split('@')[0]);
+      
       if (chat.detect && !chat?.isBanned) {
-        mconn?.conn?.sendMessage(id, { text, mentions: mconn?.conn?.parseMention(text) });
+        await conn.sendMessage(
+          id, 
+          { text, mentions: conn.parseMention(text) }
+        );
       }
       break;
+    }
+    case 'demote':
+    case 'quitarpoder':
+    case 'quitaradmin': {
+      const userJid = conn.decodeJid(participants[0]);
+      text = (chat?.sDemote || tradutor.texto4 || conn?.sdemote || '@user ```is no longer Admin```')
+        .replace('@user', '@' + userJid.split('@')[0]);
+      
+      if (chat.detect && !chat?.isBanned) {
+        await conn.sendMessage(
+          id, 
+          { text, mentions: conn.parseMention(text) }
+        );
+      }
+      break;
+    }
   }
 }
-
 /**
  * Handle groups update
  * @param {import("baileys").BaileysEventMap<unknown>['groups.update']} groupsUpdate

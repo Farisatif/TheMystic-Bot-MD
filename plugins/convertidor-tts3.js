@@ -21,7 +21,7 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
   }
 };
 
-handler.command = /^(tts3)$/i;
+handler.command = /^(tts3|انطق3)$/i;
 export default handler;
 
 const apiKey = 'a0e2c6022f1aeb28b5020b1dd0faf6ee';

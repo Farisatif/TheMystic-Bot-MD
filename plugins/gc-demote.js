@@ -31,7 +31,7 @@ const handler = async (m, {conn, usedPrefix, text}) => {
     conn.reply(m.chat, tradutor.texto3, m);
   }
 };
-handler.help = ['*593xxx*', '*@usuario*', '*responder chat*'].map((v) => 'demote ' + v);
+handler.help = ['*773xxx*', '*@usuario*', '*responder chat*'].map((v) => 'demote ' + v);
 handler.tags = ['group'];
 handler.command = /^(demote|quitarpoder|quitaradmin)$/i;
 handler.group = true;

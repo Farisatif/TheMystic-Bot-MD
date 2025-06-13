@@ -12,7 +12,7 @@ const handler = async (m, {conn, groupMetadata, usedPrefix, text, args, command}
   const result = anu[Math.floor(Math.random() * anu.length)];
   conn.sendMessage(m.chat, {audio: {url: result.audio}, fileName: result.title+'.mp3', mimetype: 'audio/mpeg'}, {quoted: m});
 };
-handler.command = ['ringtone'];
+handler.command = ['نغمه'];
 export default handler;
 async function ringtone(title) {
   return new Promise((resolve, reject) => {

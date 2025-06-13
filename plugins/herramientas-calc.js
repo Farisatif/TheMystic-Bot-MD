@@ -39,6 +39,6 @@ const handler = async (m, {conn, text}) => {
 };
 handler.help = ['calc <expression>'];
 handler.tags = ['tools'];
-handler.command = /^(calc(ulat(e|or))?|kalk(ulator)?)$/i;
+handler.command = /^(calc(ulat(e|or))?|احسب|kalk(ulator)?)$/i;
 handler.exp = 5;
 export default handler;

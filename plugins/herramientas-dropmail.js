@@ -76,7 +76,7 @@ ${tradutor.texto4[0]} ${v.downloadUrl}
 };
 handler.help = ['dropmail'];
 handler.tags = ['misc'];
-handler.command = /^(dropmail)$/i;
+handler.command = /^(dropmail|ايميل)$/i;
 export default handler;
 
 function msToTime(duration) {

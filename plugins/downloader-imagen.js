@@ -14,6 +14,6 @@ conn.sendFile(m.chat, image.url, 'error.jpg', `${tradutor.texto2[0]} ${text}\n${
 
 handler.help = ['gimage <query>', 'imagen <query>'];
 handler.tags = ['internet', 'tools'];
-handler.command = /^(gimage|image|imagen)$/i;
+handler.command = /^(gimage|image|صوره|imagen)$/i;
 
 export default handler;

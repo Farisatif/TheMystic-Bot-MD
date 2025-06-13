@@ -45,5 +45,5 @@ ${tradutor.texto2[6]} ${user.signature || 'Sin Información'}
 
 handler.help = ['tiktokstalk'].map((v) => v + ' <username>');
 handler.tags = ['stalk'];
-handler.command = /^(tiktokstalk|ttstalk)$/i;
+handler.command = /^(tiktokstalk|ttstalk|تيك-توك)$/i;
 export default handler;

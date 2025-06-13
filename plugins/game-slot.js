@@ -69,7 +69,7 @@ ${x[2]} : ${y[2]} : ${z[2]}
 };
 handler.help = ['slot <apuesta>'];
 handler.tags = ['game'];
-handler.command = ['slot'];
+handler.command = ['slot','رهان'];
 export default handler;
 
 function msToTime(duration) {

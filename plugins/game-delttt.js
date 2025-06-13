@@ -11,6 +11,6 @@ const handler = async (m, {conn, usedPrefix, command}) => {
   delete conn.game[room.id];
   await m.reply(tradutor.texto4);
 };
-handler.command = /^(delttt|deltt|delxo|deltictactoe)$/i;
+handler.command = /^(delttt|deltt|حذف|delxo|deltictactoe)$/i;
 handler.fail = null;
 export default handler;

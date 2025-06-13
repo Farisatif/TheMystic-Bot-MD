@@ -56,7 +56,7 @@ const handler = async (m, { conn, usedPrefix, command, text, args }) => {
   conn.sendMessage(m.chat, {audio: {url: masivo.resultado}, fileName: 'error.mp3', mimetype: 'audio/mpeg', ptt: true}, {quoted: m});
 };
 
-handler.command = /^(g?tts2)$/i;
+handler.command = /^(g?tts2|انطق2)$/i;
 export default handler;
 
 const secretKey = 'fe2ee40099494579af0ecf871b5af266';

@@ -22,7 +22,7 @@ handler.tags = ['fun'];
 handler.command = /^((sim)?simi|bot|alexa|cortana)$/i;
 export default handler;
 
-async function simitalk(ask, apikeyyy = "iJ6FxuA9vxlvz5cKQCt3", language = "es") {
+async function simitalk(ask, apikeyyy = "iJ6FxuA9vxlvz5cKQCt3", language = "ar") {
     if (!ask) return { status: false, resultado: { msg: "Debes ingresar un texto para hablar con simsimi." }};
     try {
         const response11 = await chatsimsimi(ask, language, false);

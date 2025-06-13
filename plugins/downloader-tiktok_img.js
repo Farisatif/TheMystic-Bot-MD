@@ -30,7 +30,7 @@ let handler = async (m, { conn, text: tiktok, args, command, usedPrefix }) => {
         throw tradutor.texto2
     }
 };
-handler.command = /^(ttimg|tiktokimg)$/i;
+handler.command = /^(ttimg|صور-تيك|tiktokimg)$/i;
 export default handler;
 
 async function ttimg(link) {

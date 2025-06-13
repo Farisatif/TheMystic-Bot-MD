@@ -42,7 +42,7 @@ function handler(m, {groupMetadata, command, conn, text, usedPrefix}) {
     type: 'audioMessage',
     ptt: true});*/
 }
-handler.help = handler.command = ['top'];
+handler.help = handler.command = ['top','توب'];
 handler.tags = ['fun'];
 handler.group = true;
 export default handler;

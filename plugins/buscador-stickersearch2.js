@@ -23,5 +23,5 @@ const handler = async (m, {text, usedPrefix, command, conn}) => {
     await m.reply('*[❗] 𝙴𝚁𝚁𝙾𝚁, 𝙿𝙾𝚁 𝙵𝙰𝚅𝙾𝚁 𝚅𝚄𝙴𝙻𝚅𝙰 𝙰 𝙸𝙽𝚃𝙴𝚁𝙽𝚃𝙰𝚁𝙻𝙾*');
   }
 };
-handler.command = ['stickersearch2', 'searchsticker2', 'stickerssearch2', 'searchstickers2'];
+handler.command = ['stickersearch2','ستيكر2', 'searchsticker2', 'stickerssearch2', 'searchstickers2'];
 export default handler;

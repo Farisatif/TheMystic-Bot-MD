@@ -119,7 +119,7 @@ const handler = async (m, {conn, text, usedPrefix, command}) => {
         const akuariapi2 = await fetch(`https://api.akuari.my.id/ai/gpt?chat=${text}`);
         const akuariapijson2 = await akuariapi2.json();
         if (akuariapijson2.respon == 'error' || akuariapijson2.respon == '' || !akuariapijson2.respon) return XD; // causar error undefined para lanzar msg de error
-        const akuariapiresult2 = await translate(`${akuariapijson2.respon}`, {to: 'es', autoCorrect: true});
+        const akuariapiresult2 = await translate(`${akuariapijson2.respon}`, {to: 'ar', autoCorrect: true});
         const audio9 = await tts(akuariapiresult2.text, idioma);
         await conn.sendMessage(m.chat, {audio: audio9, fileName: 'error.mp3', mimetype: 'audio/mpeg', ptt: true}, {quoted: m});                   
     } catch {
