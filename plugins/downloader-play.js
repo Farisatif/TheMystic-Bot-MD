@@ -22,7 +22,7 @@ if (!text) throw `${tradutor.texto1[0]} ${usedPrefix + command} ${tradutor.texto
 
 const yt_play = await search(args.join(' '));
 const ytplay2 = await yts(text);
-const texto1 = `*◉ Descargas de YouTube*\n\n● *Titulo:* ${yt_play[0].title}\n● *Publicado:* ${yt_play[0].ago}\n● *Duracion:* ${secondString(yt_play[0].duration.seconds)}\n● *Vistas:* ${MilesNumber(yt_play[0].views)}\n● *Autor:* ${yt_play[0].author.name}\n● *Link:* ${yt_play[0].url.replace(/^https?:\/\//, '')}\n\n> *_Enviando ${additionalText}, aguarde un momento．．．_*`.trim();
+const texto1 = "* Descargas de YouTube*\n\n● *Titulo:* ${yt_play[0].title}\n● *Publicado:* ${yt_play[0].ago}\n● *Duracion:* ${secondString(yt_play[0].duration.seconds)}\n● *Vistas:* ${MilesNumber(yt_play[0].views)}\n● *Autor:* ${yt_play[0].author.name}\n● *Link:* ${yt_play[0].url.replace(/^https?:\/\//, '')}\n\n> *_Enviando ${additionalText}, aguarde un momento．．．_*".trim();
 
 conn.sendMessage(m.chat, { image: { url: yt_play[0].thumbnail }, caption: texto1 }, { quoted: m });
 
